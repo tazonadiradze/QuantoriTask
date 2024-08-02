@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-// Define the shape of the context value
 interface LoginContextType {
   showLogin: boolean;
   setShowLogin: (show: boolean) => void;

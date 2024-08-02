@@ -6,7 +6,7 @@ import { useLoginContext } from "../context/login.context";
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { setShowLogin, showLogin } = useLoginContext();
+  const { setShowLogin } = useLoginContext();
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
@@ -18,17 +18,23 @@ const Header: React.FC = () => {
         <img className="w-12" src={USER} alt="User" />
 
         <nav className="pl-20 hidden sm:block w-full">
-          <div className="border-2 border-[#80AF81] rounded-full flex justify-around px-4 py-1">
-            <Tab page="home">Home</Tab>
-            <Tab page="about">About</Tab>
-            <Tab page="contact">Contact</Tab>
+          <div className="border-2 border-[#80AF81] rounded-full flex justify-around ">
+            <Tab additionalClassName="rounded-l-full" page="home">
+              Home
+            </Tab>
+            <Tab additionalClassName="rounded-full" page="about">
+              About
+            </Tab>
+            <Tab additionalClassName="rounded-r-full" page="contact">
+              Contact
+            </Tab>
           </div>
         </nav>
       </div>
 
       <div
         className="text-sm hover:text-gray-900 cursor-pointer hidden sm:block bg-green-600 text-white"
-        onClick={() => setShowLogin(!showLogin)}
+        onClick={() => setShowLogin(true)}
       >
         Login
       </div>
