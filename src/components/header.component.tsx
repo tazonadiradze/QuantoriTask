@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Tab } from "./tab.component";
 import USER from "../assets/images/user.png";
 import { FaEllipsisV } from "react-icons/fa";
-import { useLoginContext } from "../context/login.context";
+
+import LoginModal from "./modal.component";
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { setShowLogin } = useLoginContext();
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
@@ -32,12 +32,7 @@ const Header: React.FC = () => {
         </nav>
       </div>
 
-      <div
-        className="text-sm hover:text-gray-900 cursor-pointer hidden sm:block bg-green-600 text-white"
-        onClick={() => setShowLogin(true)}
-      >
-        Login
-      </div>
+      <LoginModal />
 
       <div
         className="sm:hidden text-green-500 cursor-pointer border-2 border-green-500 rounded-full p-1"
@@ -46,7 +41,7 @@ const Header: React.FC = () => {
         <FaEllipsisV className="transform rotate-180" />
       </div>
       {menuOpen && (
-        <div className="absolute top-16 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 sm:hidden">
+        <div className="absolute top-16 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 sm:hidden z-50">
           <Tab page="home">Home</Tab>
           <Tab page="about">About</Tab>
           <Tab page="contact">Contact</Tab>
