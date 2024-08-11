@@ -1,7 +1,9 @@
 import { Modal, Button, Form, Input } from "antd";
 import { useState } from "react";
+import axios from "axios";
 
 export default function LoginModal() {
+  const [value, setValues] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -16,10 +18,26 @@ export default function LoginModal() {
     setIsModalVisible(false);
   };
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-    // You can handle login logic here
-    handleOk(); // Optionally close the modal after a successful login
+  const onFinish = async (values: any) => {
+    try {
+      const response = await axios.post(
+        "https://dummyjson.com/auth/login",
+        {
+          ...values,
+          expiresInMins: 30,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setValues(values.username);
+      console.log("Success:", response.data);
+      handleOk();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -35,10 +53,9 @@ export default function LoginModal() {
       <Modal
         title="Login"
         open={isModalVisible}
-        onOk={handleOk}
         onCancel={handleCancel}
-        footer={null} // Optional: to hide default footer
-        className="modal" // Optional: to add custom styles if needed
+        footer={null}
+        className="modal"
       >
         <Form
           name="login"
@@ -49,26 +66,27 @@ export default function LoginModal() {
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Input placeholder="Username" />
+            <Input placeholder="Username" autoComplete="username" />
           </Form.Item>
 
           <Form.Item
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password placeholder="Password" />
+            <Input.Password placeholder="Password" autoComplete="password" />
           </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" block>
               Login
             </Button>
-            <Button type="primary" htmlType="button" onClick={handleCancel}>
-              close
+            <Button type="default" htmlType="button" onClick={handleCancel}>
+              Close
             </Button>
           </Form.Item>
         </Form>
       </Modal>
+      {value}
     </div>
   );
 }
