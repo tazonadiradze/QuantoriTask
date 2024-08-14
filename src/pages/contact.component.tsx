@@ -1,3 +1,7 @@
 export default function Contact() {
-  return <div>contact</div>;
+  return (
+    <div className="flex items-center justify-center">
+      Content will be added soon{" "}
+    </div>
+  );
 }

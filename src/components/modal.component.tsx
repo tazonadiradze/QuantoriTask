@@ -3,7 +3,6 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function LoginModal() {
-  const [value, setValues] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -32,8 +31,8 @@ export default function LoginModal() {
           },
         }
       );
-      setValues(values.username);
-      console.log("Success:", response.data);
+      alert("Welcome to Quantori " + response.data.username);
+      console.log("Success:", response.data.username);
       handleOk();
     } catch (error) {
       console.error("Error:", error);
@@ -44,7 +43,7 @@ export default function LoginModal() {
     <div>
       <Button
         type="primary"
-        className="hidden sm:block bg-green-600 text-white"
+        // className=" hidden sm:block bg-green-600 text-white"
         onClick={showModal}
       >
         Login
@@ -53,9 +52,10 @@ export default function LoginModal() {
       <Modal
         title="Login"
         open={isModalVisible}
+        centered
         onCancel={handleCancel}
         footer={null}
-        className="modal"
+        className="modal w-[350px] flex items-center justify-center "
       >
         <Form
           name="login"
@@ -66,27 +66,40 @@ export default function LoginModal() {
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Input placeholder="Username" autoComplete="username" />
+            <Input
+              placeholder="Email"
+              autoComplete="username"
+              style={{ width: "200px" }}
+            />
           </Form.Item>
 
           <Form.Item
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password placeholder="Password" autoComplete="password" />
+            <Input.Password
+              placeholder="Password"
+              autoComplete="password"
+              style={{ width: "200px" }}
+            />
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Login
-            </Button>
-            <Button type="default" htmlType="button" onClick={handleCancel}>
-              Close
-            </Button>
+            <div className="flex justify-center gap-4">
+              <Button type="default" htmlType="button" onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="bg-green-600 text-white border-green-600 hover:bg-green-700 "
+              >
+                Login
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </Modal>
-      {value}
     </div>
   );
 }

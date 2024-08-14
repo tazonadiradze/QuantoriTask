@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Tab } from "./tab.component";
 import USER from "../assets/images/user.png";
 import { FaEllipsisV } from "react-icons/fa";
-
 import LoginModal from "./modal.component";
 
 const Header: React.FC = () => {
@@ -31,20 +30,24 @@ const Header: React.FC = () => {
           </div>
         </nav>
       </div>
-
-      <LoginModal />
-
+      <div className="hidden md:block">
+        <LoginModal />
+      </div>
       <div
         className="sm:hidden text-green-500 cursor-pointer border-2 border-green-500 rounded-full p-1"
         onClick={handleMenuToggle}
       >
         <FaEllipsisV className="transform rotate-180" />
       </div>
+
       {menuOpen && (
-        <div className="absolute top-16 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 sm:hidden z-50">
+        <div className="absolute top-16 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 sm:hidden z-50 ">
           <Tab page="home">Home</Tab>
           <Tab page="about">About</Tab>
           <Tab page="contact">Contact</Tab>
+          <div className="md:hidden">
+            <LoginModal />
+          </div>
         </div>
       )}
     </header>
