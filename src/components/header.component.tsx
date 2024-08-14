@@ -30,7 +30,7 @@ const Header: React.FC = () => {
           </div>
         </nav>
       </div>
-      <div className="hidden md:block">
+      <div className="hidden sm:block md:block lg:block ">
         <LoginModal />
       </div>
       <div
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
           <Tab page="home">Home</Tab>
           <Tab page="about">About</Tab>
           <Tab page="contact">Contact</Tab>
-          <div className="md:hidden">
+          <div className="sm:hidden">
             <LoginModal />
           </div>
         </div>

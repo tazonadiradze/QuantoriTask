@@ -1,9 +1,16 @@
 import { Modal, Button, Form, Input } from "antd";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./store/auth.context";
+import { loginData } from "./types/user-types";
+import Loading from "./loading";
 
 export default function LoginModal() {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { setUserData } = useAuth();
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -17,8 +24,10 @@ export default function LoginModal() {
     setIsModalVisible(false);
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: loginData) => {
+    console.log(values);
     try {
+      setIsLoading(true);
       const response = await axios.post(
         "https://dummyjson.com/auth/login",
         {
@@ -31,13 +40,20 @@ export default function LoginModal() {
           },
         }
       );
-      alert("Welcome to Quantori " + response.data.username);
-      console.log("Success:", response.data.username);
+      // alert("Welcome to Quantori " + response.data.username);
+      setUserData(response.data); // Store the response data in context
+      navigate("/about");
       handleOk();
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error("Error:", error);
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -55,7 +71,7 @@ export default function LoginModal() {
         centered
         onCancel={handleCancel}
         footer={null}
-        className="modal w-[350px] flex items-center justify-center "
+        className="modal flex items-center justify-center "
       >
         <Form
           name="login"
@@ -66,22 +82,14 @@ export default function LoginModal() {
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Input
-              placeholder="Email"
-              autoComplete="username"
-              style={{ width: "200px" }}
-            />
+            <Input placeholder="Email" autoComplete="username" />
           </Form.Item>
 
           <Form.Item
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password
-              placeholder="Password"
-              autoComplete="password"
-              style={{ width: "200px" }}
-            />
+            <Input.Password placeholder="Password" autoComplete="password" />
           </Form.Item>
 
           <Form.Item>
